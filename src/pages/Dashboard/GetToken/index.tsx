@@ -22,7 +22,7 @@ const GetToken = () => {
           <FontAwesomeIcon icon={faSign} className="text-primary" />
         </button>
         <a href="/" className="text-white text-decoration-none">
-          generate Auto token
+          generate Auth token
         </a>
       </div>
     </>
