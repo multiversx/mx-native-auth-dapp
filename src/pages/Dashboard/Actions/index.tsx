@@ -13,6 +13,7 @@ import { contractAddress } from "config";
 import { RawTransactionType } from "helpers/types";
 import useNewTransaction from "pages/Transaction/useNewTransaction";
 import { routeNames } from "routes";
+import GetToken from "../GetToken";
 
 const Actions = () => {
   const sendTransaction = Dapp.useSendTransaction();
@@ -152,6 +153,7 @@ const Actions = () => {
           )}
         </>
       )}
+      <GetToken />
     </div>
   );
 };
