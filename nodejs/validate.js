@@ -9,7 +9,7 @@ const {
 const { Signature } = require("@elrondnetwork/erdjs/out/signature");
 
 const expectedIssuers = ["http://localhost:3000"];
-const blockTimestampDeltaMs = 6000;
+const blockTimestampDeltaMs = 7000;
 const algorithm = "ELROND";
 const type = "JWT";
 
@@ -29,7 +29,7 @@ async function validateToken(tokenToValidate) {
   );
   const parsedBody = JSON.parse(Buffer.from(body, "base64").toString("ascii"));
 
-  const { hash, iss, iat, exp, sub } = parsedBody;
+  const { hash, iss, iat, exp, sub, extra, extra2 } = parsedBody;
 
   if (!expectedIssuers.includes(iss)) {
     console.error(errors.invalidIssuer);
@@ -57,7 +57,6 @@ async function validateToken(tokenToValidate) {
   const adjustedBlockTime = blockTimestamp * 1000 + blockTimestampDeltaMs;
   const isIssuedAtValid = issuedAt < adjustedBlockTime;
   const isExpiresValid = expires > new Date();
-
   if (!isIssuedAtValid) {
     console.error(errors.invalidIssuedAt);
     return;
@@ -89,6 +88,8 @@ async function validateToken(tokenToValidate) {
     blockTimestamp: new Date(adjustedBlockTime),
     expires: new Date(expires),
     isTimestampValid: isExpiresValid && isIssuedAtValid,
+    extra,
+    extra2,
   });
 }
 
