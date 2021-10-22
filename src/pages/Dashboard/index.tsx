@@ -7,8 +7,6 @@ import { contractAddress } from "config";
 import { useContext, useDispatch } from "context";
 import Actions from "./Actions";
 import { getTransactions } from "./helpers/asyncRequests";
-import TopInfo from "./TopInfo";
-import Transactions from "./Transactions";
 
 const Dashboard = () => {
   const ref = React.useRef(null);
@@ -58,11 +56,9 @@ const Dashboard = () => {
             <div className="card-body p-1">
               <div className="card rounded border-0 bg-primary">
                 <div className="card-body text-center p-4">
-                  <TopInfo />
                   <Actions />
                 </div>
               </div>
-              <Transactions />
             </div>
           </div>
         </div>

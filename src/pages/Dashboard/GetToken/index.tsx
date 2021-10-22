@@ -9,10 +9,11 @@ const GetToken = () => {
     dapp: { provider },
     address,
   } = useDappContext();
+  const [token, setToken] = React.useState<string | undefined>();
 
   const handleGenerateToken = async () => {
-    const token = await getSignedToken(address, provider);
-    console.log(token);
+    const generatedToken = await getSignedToken(address, provider);
+    setToken(generatedToken);
   };
 
   return (
@@ -24,6 +25,7 @@ const GetToken = () => {
         <a href="/" className="text-white text-decoration-none">
           generate Auth token
         </a>
+        {token != null && <textarea disabled value={token} />}
       </div>
     </>
   );
