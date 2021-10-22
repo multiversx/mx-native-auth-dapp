@@ -8,7 +8,7 @@
   "dependencies": {
     "@elrondnetwork/dapp": "0.0.45",
     "@elrondnetwork/dapp-utils": "0.0.10",
-    "@elrondnetwork/erdjs": "8.0.1-alpha.8",
+    "@elrondnetwork/erdjs": "^8.0.1-alpha.8",
     "@testing-library/jest-dom": "5.11.4",
     "@testing-library/react": "11.1.0",
     "@testing-library/user-event": "12.1.10",
@@ -17,7 +17,7 @@
     "@types/react": "17.0.7",
     "@types/react-dom": "17.0.0",
     "@types/react-router-dom": "5.1.7",
-    "axios": "0.21.1",
+    "axios": "^0.21.1",
     "bootstrap": "4.6.0",
     "moment": "^2.29.1",
     "node-sass": "4.14.1",

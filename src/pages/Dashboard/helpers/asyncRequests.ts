@@ -53,6 +53,7 @@ export const getCurrentBlockHash = async () => {
   }
 };
 
+console.log(new Date(Date.now()));
 const signedTokenHeader = {
   type: "JWT",
   alg: "ELROND",
@@ -68,21 +69,24 @@ export const getSignedToken = async (
   }
   const { hash } = currentBlockHashResponse;
   const messagePayload = {
-    blockHash: hash,
+    hash,
     sub: address,
-    iat: moment().unix(),
-    exp: moment().add(2, "hour").unix(),
+    iat: moment().utc().unix(),
+    exp: moment().utc().add(2, "hour").unix(),
+    iss: window.location.origin,
   };
 
+  const encodedHeader = encode(JSON.stringify(signedTokenHeader));
+  const encodedPayload = encode(JSON.stringify(messagePayload));
+  const message = `${encodedHeader}.${encodedPayload}`;
   const msg = new SignableMessage({
-    message: Buffer.from(JSON.stringify(messagePayload), "utf8"),
+    message: Buffer.from(message, "utf8"),
     address: new Address(address),
   });
-  const encodedHeader = encode(JSON.stringify(signedTokenHeader));
+
   const response = await provider.signMessage(msg);
   const signature = response.signature;
-  const encodedPayload = encode(JSON.stringify(messagePayload));
-  const token = `${encodedHeader}.${encodedPayload}.${signature.hex()}`;
+  const token = `${message}.${signature.hex()}`;
   return token;
 };
 
