@@ -29,7 +29,7 @@ async function validateToken(tokenToValidate) {
   );
   const parsedBody = JSON.parse(Buffer.from(body, "base64").toString("ascii"));
 
-  const { hash, iss, iat, exp, sub, extra, extra2 } = parsedBody;
+  const { hash, iss, iat, exp, sub, data } = parsedBody;
 
   if (!expectedIssuers.includes(iss)) {
     console.error(errors.invalidIssuer);
@@ -89,8 +89,7 @@ async function validateToken(tokenToValidate) {
     blockTimestamp: new Date(adjustedBlockTime),
     expires: new Date(expires),
     isTimestampValid: isExpiresValid && isIssuedAtValid,
-    extra,
-    extra2,
+    data,
   });
 }
 

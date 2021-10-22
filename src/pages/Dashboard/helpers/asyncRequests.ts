@@ -74,8 +74,10 @@ export const getSignedToken = async (
     iat: moment().utc().unix(),
     exp: moment().utc().add(2, "hour").unix(),
     iss: window.location.origin,
-    extra: "someExtraData",
-    extra2: "someRandomData2",
+    data: {
+      extra: "someExtraData",
+      extra2: "someRandomData2",
+    },
   };
 
   const encodedHeader = encode(JSON.stringify(signedTokenHeader));
