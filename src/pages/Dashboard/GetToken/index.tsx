@@ -18,8 +18,8 @@ const GetToken = () => {
 
   return (
     <>
-      <div className="action-btn" onClick={handleGenerateToken}>
-        <button className="btn">
+      <div className="action-btn">
+        <button onClick={handleGenerateToken} className="btn">
           <FontAwesomeIcon icon={faSign} className="text-primary" />
         </button>
         <a href="/" className="text-white text-decoration-none">
