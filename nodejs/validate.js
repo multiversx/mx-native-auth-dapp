@@ -57,6 +57,7 @@ async function validateToken(tokenToValidate) {
   const adjustedBlockTime = blockTimestamp * 1000 + blockTimestampDeltaMs;
   const isIssuedAtValid = issuedAt < adjustedBlockTime;
   const isExpiresValid = expires > new Date();
+
   if (!isIssuedAtValid) {
     console.error(errors.invalidIssuedAt);
     return;
@@ -93,4 +94,7 @@ async function validateToken(tokenToValidate) {
   });
 }
 
-validateToken(token);
+const args = process.argv.slice(2);
+const argument = args[0];
+const tkn = argument || token;
+validateToken(tkn);
