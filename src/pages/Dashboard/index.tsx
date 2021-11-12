@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Dapp from "@elrondnetwork/dapp";
 import PageState from "components/PageState";
+import { getItem } from "storage/session";
 import Actions from "./Actions";
 import TopInfo from "./TopInfo";
 
@@ -34,6 +35,13 @@ const Dashboard = () => {
                 <div className="card-body text-center p-4">
                   <TopInfo />
                   <Actions />
+
+                  <div className="text-white d-flex flex-column mt-3">
+                    <span className={"mt-2"}>{"Your auth token"}</span>
+                    <span className={"mt-2"}>
+                      {getItem("tokenData")?.accessToken}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

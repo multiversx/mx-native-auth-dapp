@@ -6,15 +6,30 @@ import Layout from "./components/Layout";
 import PageNotFoud from "./components/PageNotFoud";
 import * as config from "./config";
 import { ContextProvider } from "./context";
+import { generateTokenPayload } from "./helpers/asyncRequests";
 import routes, { routeNames } from "./routes";
 
 export default function App() {
+  const [token, setToken] = React.useState("");
+
+  const getTokenToSign = async () => {
+    const tokenToSign = await generateTokenPayload();
+    setToken(tokenToSign);
+  };
+
+  React.useEffect(() => {
+    getTokenToSign();
+  }, []);
   return (
-    <Dapp.Context config={config}>
-      <ContextProvider>
+    <ContextProvider>
+      <Dapp.Context config={config}>
         <Layout>
           <Switch>
-            <Route path={routeNames.unlock} component={Unlock} exact={true} />
+            <Route
+              path={routeNames.unlock}
+              component={() => <Unlock token={token} />}
+              exact={true}
+            />
             <Route
               path={routeNames.ledger}
               component={() => (
@@ -30,6 +45,7 @@ export default function App() {
                   logoutRoute={routeNames.home}
                   title="Maiar Login"
                   lead="Scan the QR code using Maiar"
+                  token={token}
                 />
               )}
               exact={true}
@@ -46,7 +62,7 @@ export default function App() {
             <Route component={PageNotFoud} />
           </Switch>
         </Layout>
-      </ContextProvider>
-    </Dapp.Context>
+      </Dapp.Context>
+    </ContextProvider>
   );
 }

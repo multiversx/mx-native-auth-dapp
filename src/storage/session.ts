@@ -2,14 +2,14 @@ import moment from "moment";
 
 export type SessionKeyType = number | "address" | "loggedIn" | "tokenData";
 
-export const setItem = (key: SessionKeyType, item: any, ttl: number = 3600) => {
+export const setItem = (key: SessionKeyType, item: any, ttl = 3600) => {
   const expires = moment().unix() + ttl;
   sessionStorage.setItem(
     String(key),
     JSON.stringify({
       expires,
       data: item,
-    })
+    }),
   );
 };
 

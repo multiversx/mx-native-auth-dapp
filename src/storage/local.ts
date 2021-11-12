@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export type LocalKeyType = "maiarExchangeAccounts" | "darkTheme" | "tokenData";
+export type LocalKeyType = "maiarExchangeAccounts" | "darkTheme";
 export type LocalAccountKeyType = "tolerance" | "txDeadlineSec";
 
 export const setItem = (key: LocalKeyType, item: any, ttl = 3600) => {

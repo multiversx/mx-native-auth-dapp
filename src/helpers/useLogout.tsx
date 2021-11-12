@@ -1,5 +1,5 @@
 import * as Dapp from "@elrondnetwork/dapp";
-import { setItem } from "storage/local";
+import { setItem } from "storage/session";
 
 export default function useLogout() {
   const logout = Dapp.useLogout();
@@ -8,7 +8,6 @@ export default function useLogout() {
     if (e) {
       e.preventDefault();
     }
-    console.log("logout");
     setItem("tokenData", null);
     logout({ callbackUrl: "/" });
   };

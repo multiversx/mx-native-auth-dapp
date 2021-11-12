@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Dapp from "@elrondnetwork/dapp";
 import { useLocation } from "react-router-dom";
 import { encode, tokenTTL } from "helpers/asyncRequests";
-import { setItem } from "storage/local";
+import { setItem } from "storage/session";
 
 export default function useManageAccessToken() {
   const { loggedIn, tokenLogin } = Dapp.useContext();
@@ -18,7 +18,6 @@ export default function useManageAccessToken() {
       const encodedAddress = encode(address);
       const encodedToken = encode(loginToken);
       const accessToken = `${encodedAddress}.${encodedToken}.${signature}`;
-      console.log(accessToken, loginToken);
       setItem("tokenData", { accessToken }, tokenTTL);
     }
   }, [loggedIn, tokenLogin]);

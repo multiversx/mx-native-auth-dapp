@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { network } from "config";
-import { getItem } from "storage/local";
+import { getItem } from "storage/session";
 
 export const tokenTTL = 60 * 60 * 2;
 

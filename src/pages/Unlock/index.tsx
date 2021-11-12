@@ -6,21 +6,9 @@ import { Link } from "react-router-dom";
 import { ReactComponent as LedgerSymbol } from "assets/img/ledger-symbol.svg";
 import { ReactComponent as MaiarSymbol } from "assets/img/maiar-symbol-blue.svg";
 import { ReactComponent as ElrondSymbol } from "assets/img/symbol.svg";
-import { generateTokenPayload } from "helpers/asyncRequests";
 import { routeNames } from "routes";
 
-const Unlock = () => {
-  const [token, setToken] = React.useState("");
-
-  const getTokenToSign = async () => {
-    const tokenToSign = await generateTokenPayload();
-    setToken(tokenToSign);
-  };
-
-  React.useEffect(() => {
-    getTokenToSign();
-  }, []);
-
+const Unlock = ({ token }: { token: string }) => {
   const loginParams = {
     callbackRoute: routeNames.dashboard,
     token,
