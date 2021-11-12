@@ -2,7 +2,7 @@ import { Address, IDappProvider, SignableMessage } from "@elrondnetwork/erdjs";
 import axios from "axios";
 import moment from "moment";
 
-import { network } from "../../../config";
+import { network } from "config";
 
 interface GetLatestTransactionsType {
   apiAddress: string;
@@ -53,7 +53,6 @@ export const getCurrentBlockHash = async () => {
   }
 };
 
-console.log(new Date(Date.now()));
 const signedTokenHeader = {
   type: "JWT",
   alg: "ELROND",
@@ -61,11 +60,11 @@ const signedTokenHeader = {
 export const getSignedToken = async (
   address: string,
   provider: IDappProvider,
-) => {
+): Promise<string> => {
   const currentBlockHashResponse = await getCurrentBlockHash();
   if (!currentBlockHashResponse?.success) {
     alert("there was an error while the token, please try again");
-    return;
+    return "";
   }
   const { hash } = currentBlockHashResponse;
   const messagePayload = {
