@@ -4,9 +4,17 @@ import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import "./assets/sass/theme.scss";
 
-ReactDOM.render(
+let MountedApp = (
   <Router>
     <App />
-  </Router>,
-  document.getElementById("root"),
+  </Router>
 );
+if (process.env.NODE_ENV === "development") {
+  MountedApp = (
+    <Router>
+      <App />
+    </Router>
+  );
+}
+
+ReactDOM.render(MountedApp, document.getElementById("root"));

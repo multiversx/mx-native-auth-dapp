@@ -1,6 +1,7 @@
 import React from "react";
 import * as Dapp from "@elrondnetwork/dapp";
 import { Route, Switch } from "react-router-dom";
+import Unlock from "pages/Unlock";
 import Layout from "./components/Layout";
 import PageNotFoud from "./components/PageNotFoud";
 import * as config from "./config";
@@ -13,19 +14,7 @@ export default function App() {
       <ContextProvider>
         <Layout>
           <Switch>
-            <Route
-              path={routeNames.unlock}
-              component={() => (
-                <Dapp.Pages.Unlock
-                  callbackRoute={routeNames.dashboard}
-                  title={config.dAppName}
-                  lead="Please select your login method:"
-                  ledgerRoute={routeNames.ledger}
-                  walletConnectRoute={routeNames.walletconnect}
-                />
-              )}
-              exact={true}
-            />
+            <Route path={routeNames.unlock} component={Unlock} exact={true} />
             <Route
               path={routeNames.ledger}
               component={() => (

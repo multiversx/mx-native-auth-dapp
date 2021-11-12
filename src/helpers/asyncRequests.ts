@@ -1,46 +1,24 @@
-import { Address, IDappProvider, SignableMessage } from "@elrondnetwork/erdjs";
 import axios from "axios";
-import moment from "moment";
 
 import { network } from "config";
+import { getItem } from "storage/local";
 
-interface GetLatestTransactionsType {
-  apiAddress: string;
-  address: string;
-  contractAddress: string;
-  timeout: number;
-  page?: number;
-  url?: string;
-}
+export const tokenTTL = 60 * 60 * 2;
 
-const fetchTransactions = (url: string) =>
-  async function getTransactions({
-    apiAddress,
-    address,
-    contractAddress,
-    timeout,
-  }: GetLatestTransactionsType) {
-    try {
-      const { data } = await axios.get(`${apiAddress}${url}`, {
-        params: {
-          sender: address,
-          receiver: contractAddress,
-          condition: "must",
-          size: 25,
-        },
-        timeout,
-      });
+const routesWithAuthentication = ["localhost"];
 
-      return {
-        data: data,
-        success: data !== undefined,
-      };
-    } catch (err) {
-      return {
-        success: false,
-      };
-    }
-  };
+axios.interceptors.request.use(function (config) {
+  const tokenData = getItem("tokenData");
+  const requiresAuthentication = routesWithAuthentication.some((route) =>
+    config?.url?.includes(route),
+  );
+  if (requiresAuthentication) {
+    config.headers.Authorization = tokenData
+      ? `Bearer ${tokenData.accessToken}`
+      : "";
+  }
+  return config;
+});
 
 export const getCurrentBlockHash = async () => {
   try {
@@ -53,53 +31,20 @@ export const getCurrentBlockHash = async () => {
   }
 };
 
-const signedTokenHeader = {
-  type: "JWT",
-  alg: "ELROND",
-};
-export const getSignedToken = async (
-  address: string,
-  provider: IDappProvider,
-): Promise<string> => {
+export const generateTokenPayload = async (): Promise<string> => {
   const currentBlockHashResponse = await getCurrentBlockHash();
   if (!currentBlockHashResponse?.success) {
     alert("there was an error while the token, please try again");
     return "";
   }
   const { hash } = currentBlockHashResponse;
-  const messagePayload = {
-    hash,
-    sub: address,
-    iat: moment().utc().unix(),
-    exp: moment().utc().add(2, "hour").unix(),
-    iss: window.location.origin,
-    data: {
-      extra: "someExtraData",
-      extra2: "someRandomData2",
-    },
-  };
-
-  const encodedHeader = encode(JSON.stringify(signedTokenHeader));
-  const encodedPayload = encode(JSON.stringify(messagePayload));
-  const message = `${encodedHeader}.${encodedPayload}`;
-  const msg = new SignableMessage({
-    message: Buffer.from(message, "utf8"),
-    address: new Address(address),
-  });
-
-  const response = await provider.signMessage(msg);
-  const signature = response.signature;
-  const token = `${message}.${signature.hex()}`;
-  return token;
+  return `${window.location.hostname}.${hash}.${tokenTTL}`;
 };
 
 function escape(str: string) {
   return str.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
 }
 
-function encode(str: string) {
+export function encode(str: string) {
   return escape(Buffer.from(str, "utf8").toString("base64"));
 }
-
-export const getTransactions = fetchTransactions("/transactions");
-export const getTransactionsCount = fetchTransactions("/transactions/count");

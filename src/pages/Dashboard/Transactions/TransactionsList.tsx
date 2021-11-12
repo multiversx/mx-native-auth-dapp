@@ -1,6 +1,5 @@
 import React from "react";
 import * as Dapp from "@elrondnetwork/dapp";
-import { Ui } from "@elrondnetwork/dapp-utils";
 import moment from "moment";
 import Denominate from "components/Denominate";
 import { TransactionType } from "context/state";
@@ -43,7 +42,7 @@ const TransactionList = ({
 
   return (
     <div className="p-3 mt-3">
-      <h4 className="mb-3 font-weight-normal">Smart Contract Transactions</h4>
+      <h4 className="mb-3 font-weight-normal">Transactions</h4>
       <div className="table-responsive">
         <table className="transactions table pb-3">
           <thead>
@@ -70,15 +69,16 @@ const TransactionList = ({
                       />
                     </div>
                   </td>
-                  <td className="transaction-hash">
+                  <td>
                     <a
                       href={`${explorerAddress}transactions/${tx.txHash}`}
                       {...{
                         target: "_blank",
                       }}
+                      className="tx-link"
                       title="View in Explorer"
                     >
-                      <Ui.Trim data-testid="txHash" text={tx.txHash} />
+                      {tx.txHash}
                     </a>
                   </td>
                   <td>

@@ -1,6 +1,5 @@
 import React from "react";
 import * as Dapp from "@elrondnetwork/dapp";
-import { dAppName } from "config";
 import withPageTitle from "./components/PageTitle";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
@@ -29,6 +28,7 @@ const routes: RouteType[] = [
     component: Dashboard,
     authenticatedRoute: true,
   },
+
   {
     path: "/transaction",
     title: "Transaction",
@@ -38,9 +38,7 @@ const routes: RouteType[] = [
 
 const wrappedRoutes = () =>
   routes.map((route) => {
-    const title = route.title
-      ? `${route.title} • Elrond ${dAppName}`
-      : `Elrond ${dAppName}`;
+    const title = route.title ? `${route.title} • Elrond Dapp` : "Elrond Dapp";
     return {
       path: route.path,
       authenticatedRoute: Boolean(route.authenticatedRoute),

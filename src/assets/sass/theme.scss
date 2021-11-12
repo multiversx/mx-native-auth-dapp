@@ -1,6 +1,6 @@
 /* Bootstrap overrides
 -------------------------------------------------- */
-$body: #000;
+
 $headings-font-weight: 300 !important;
 $primary: #1b46c2;
 $light: #fafafa;
@@ -12,8 +12,6 @@ Override Bootstrap variables only above.
 // Bootstrap
 @import "./../../../node_modules/bootstrap/scss/bootstrap.scss";
 
-// Dapp-utils
-@import "./../../../node_modules/@elrondnetwork/dapp-utils/dist/dapp-utils.scss";
 
 /* Base
 -------------------------------------------------- */
@@ -71,13 +69,7 @@ html {
   color: $white;
   margin: 0 7px;
 
-  textarea {
-    width: 40rem;
-    margin-top: 1rem;
-    height:11rem;
-  }
-
-  .generate-btn {
+  button {
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -97,44 +89,17 @@ html {
   }
 
   &.table {
-
-    .transaction-hash .trim {
-      @include media-breakpoint-down(xl) {
-        max-width: none;
-      }
-      @include media-breakpoint-down(lg) {
-        max-width: 26rem;
-      }
-      @include media-breakpoint-down(md) {
-        max-width: 12rem;
-      }
-      @include media-breakpoint-down(sm) {
-        max-width: 8rem;
-      }
-    }
-
-    td, tr {
-      padding: 0.65rem;
-    }
-
     td {
       white-space: nowrap;
       vertical-align: middle;
     }
- 
+
     tr:last-of-type {
       td {
         border-bottom: 1px solid #dee2e6;
       }
     }
   }
-}
-
-/* Actions
--------------------------------------------------- */
-
-.not-allwed {
-  cursor: not-allowed;
 }
 
 /* Loader, Transaction Success/Fail
@@ -228,3 +193,5 @@ footer {
     }
   }
 }
+
+@import "../../pages/Unlock/unlock.scss";

@@ -12,6 +12,7 @@ const Dispatch = React.createContext<DispatchType | undefined>(undefined);
 
 function ContextProvider({ children }: ContextType) {
   const [state, dispatch] = React.useReducer(reducer, initialState());
+
   return (
     <Context.Provider value={state}>
       <Dispatch.Provider value={dispatch}>{children}</Dispatch.Provider>
