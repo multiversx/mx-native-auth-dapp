@@ -25,7 +25,9 @@ const Dashboard = () => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => {
-    fetchData();
+    setTimeout(() => {
+      fetchData();
+    }, 1000);
   }, []);
 
   if (fetchingData) {
