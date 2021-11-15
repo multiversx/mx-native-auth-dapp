@@ -1,28 +1,34 @@
 import * as React from "react";
 import * as Dapp from "@elrondnetwork/dapp";
+import axios from "axios";
 import PageState from "components/PageState";
-import { getItem } from "storage/session";
 import Actions from "./Actions";
 import TopInfo from "./TopInfo";
 
 const Dashboard = () => {
   const ref = React.useRef(null);
-  const [userData, setUserData] = React.useState<string | null>(null);
+  const [userData, setUserData] = React.useState<any | null>(null);
+  const [fetchingData, setFetchingData] = React.useState(true);
   const refreshAccount = Dapp.useRefreshAccount();
 
-  const fetchData = () => {
+  const fetchData = async () => {
     refreshAccount();
     try {
-      setUserData("");
+      const response = await axios.get("http://localhost:3000/auth");
+      setUserData(response?.data);
     } catch (err) {
-      console.log("Unable to fetch transactions", err);
+      console.log("Unable to fetch user info", err);
+    } finally {
+      setFetchingData(false);
     }
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(fetchData, []);
+  React.useEffect(() => {
+    fetchData();
+  }, []);
 
-  if (userData == null) {
+  if (fetchingData) {
     return <PageState svgComponent={<></>} spin />;
   }
   return (
@@ -36,12 +42,27 @@ const Dashboard = () => {
                   <TopInfo />
                   <Actions />
 
-                  <div className="text-white d-flex flex-column mt-3">
-                    <span className={"mt-2"}>{"Your auth token"}</span>
-                    <span className={"mt-2"}>
-                      {getItem("tokenData")?.accessToken}
-                    </span>
-                  </div>
+                  {userData != null ? (
+                    <div className="text-white d-flex flex-column mt-3">
+                      <span className={"mt-2"}>{"API response: "}</span>
+                      <span
+                        className={"mt-2"}
+                      >{`Address: ${userData.address}`}</span>
+                      <span
+                        className={"mt-2"}
+                      >{`isTokenValid: ${userData.isTokenValid}`}</span>
+                      <span className={"mt-2"}>{`Token issued at: ${new Date(
+                        userData.issued,
+                      )}`}</span>
+                      <span className={"mt-2"}>{`Token expires at: ${new Date(
+                        userData.expires,
+                      )}`}</span>
+                    </div>
+                  ) : (
+                    <div className="text-white d-flex flex-column mt-3">
+                      <span>Unable to fetch user data</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

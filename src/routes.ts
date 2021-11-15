@@ -26,7 +26,6 @@ const routes: RouteType[] = [
     path: "/dashboard",
     title: "Dashboard",
     component: Dashboard,
-    authenticatedRoute: true,
   },
 
   {
