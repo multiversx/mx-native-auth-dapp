@@ -15,6 +15,7 @@ const Dashboard = () => {
     refreshAccount();
     try {
       const response = await axios.get("http://localhost:3000/auth");
+
       setUserData(response?.data);
     } catch (err) {
       console.log("Unable to fetch user info", err);

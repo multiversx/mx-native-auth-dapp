@@ -1,6 +1,11 @@
 import moment from "moment";
 
-export type SessionKeyType = number | "address" | "loggedIn" | "tokenData";
+export type SessionKeyType =
+  | number
+  | "address"
+  | "loggedIn"
+  | "tokenData"
+  | "loginToken";
 
 export const setItem = (key: SessionKeyType, item: any, ttl = 3600) => {
   const expires = moment().unix() + ttl;

@@ -2,6 +2,8 @@ import React from "react";
 import * as Dapp from "@elrondnetwork/dapp";
 import { Route, Switch } from "react-router-dom";
 import Unlock from "pages/Unlock";
+
+import { setItem, getItem } from "storage/session";
 import Layout from "./components/Layout";
 import PageNotFoud from "./components/PageNotFoud";
 import * as config from "./config";
@@ -15,11 +17,16 @@ export default function App() {
   const getTokenToSign = async () => {
     const tokenToSign = await generateTokenPayload();
     setToken(tokenToSign);
+
+    if (!getItem("loginToken")) {
+      setItem("loginToken", tokenToSign);
+    }
   };
 
   React.useEffect(() => {
     getTokenToSign();
   }, []);
+
   return (
     <ContextProvider>
       <Dapp.Context config={config}>

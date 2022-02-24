@@ -8,7 +8,9 @@ export default function useLogout() {
     if (e) {
       e.preventDefault();
     }
+
+    setItem("loginToken", null);
     setItem("tokenData", null);
-    logout({ callbackUrl: "/" });
+    logout({ callbackUrl: window.location.origin });
   };
 }
