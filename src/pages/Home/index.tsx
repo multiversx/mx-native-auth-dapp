@@ -1,9 +1,32 @@
 import * as React from "react";
+
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { dAppName } from "config";
 import { routeNames } from "routes";
 
 const Home = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const storage = localStorage.getItem("persist:dapp-core-store") || "";
+    const stored = Boolean(JSON.parse(JSON.parse(storage).account).address);
+
+    if (stored) {
+      window.location.href = routeNames.dashboard;
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="d-flex align-items-center text-center mx-auto flex-fill h1 font-weight-bold">
+        Loading...
+      </div>
+    );
+  }
+
   return (
     <div className="d-flex flex-fill align-items-center container">
       <div className="row w-100">

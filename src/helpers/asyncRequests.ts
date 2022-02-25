@@ -1,9 +1,9 @@
 import axios from "axios";
 
 import { apiAddress } from "config";
-import { getItem } from "storage/session";
+import { getItem } from "storage/local";
 
-export const tokenTTL = 60 * 60 * 2;
+export const tokenTTL = 60 * 60 * 24;
 
 const routesWithAuthentication = ["localhost"];
 

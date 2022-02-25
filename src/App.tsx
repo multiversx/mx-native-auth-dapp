@@ -19,9 +19,8 @@ const { TransactionsToastList, SignTransactionsModals, NotificationModal } =
 
 const App = () => {
   const getTokenToSign = async () => {
-    const tokenToSign = await generateTokenPayload();
-
     if (!getItem("loginToken")) {
+      const tokenToSign = await generateTokenPayload();
       setItem("loginToken", tokenToSign);
     }
   };

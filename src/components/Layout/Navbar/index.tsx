@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { dAppName } from "config";
 import { routeNames } from "routes";
 
+import { setItem as setItemLocal } from "storage/local";
 import { setItem } from "storage/session";
 import { ReactComponent as ElrondLogo } from "./../../../assets/img/elrond.svg";
 
@@ -13,7 +14,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     setItem("loginToken", null);
-    setItem("tokenData", null);
+    setItemLocal("tokenData", null);
     logout();
   };
 

@@ -4,6 +4,8 @@ import { DappUI, useGetLoginInfo } from "@elrondnetwork/dapp-core";
 import { routeNames } from "routes";
 import { getItem } from "storage/session";
 
+import "./unlock.scss";
+
 const UnlockRoute: () => JSX.Element = () => {
   const {
     ExtensionLoginButton,
@@ -19,7 +21,10 @@ const UnlockRoute: () => JSX.Element = () => {
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
+    const storage = localStorage.getItem("persist:dapp-core-store") || "";
+    const stored = Boolean(JSON.parse(JSON.parse(storage).account).address);
+
+    if (isLoggedIn || stored) {
       window.location.href = routeNames.dashboard;
     }
   }, [isLoggedIn]);
@@ -32,18 +37,21 @@ const UnlockRoute: () => JSX.Element = () => {
             <h4 className="mb-4">Login</h4>
             <p className="mb-4">pick a login method</p>
 
-            <ExtensionLoginButton
-              loginButtonText="Extension"
-              {...loginParams}
-            />
+            <div className="extension d-inline-block btn-primary">
+              <ExtensionLoginButton
+                loginButtonText="Extension"
+                {...loginParams}
+              />
+            </div>
 
             <WebWalletLoginButton
               loginButtonText="Web wallet"
               {...loginParams}
             />
+
             <LedgerLoginButton
               loginButtonText="Ledger"
-              className="test-class_name"
+              buttonClassName="test-class_name"
               {...loginParams}
             />
             <WalletConnectLoginButton

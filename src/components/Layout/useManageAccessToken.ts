@@ -3,7 +3,8 @@ import { useEffect } from "react";
 import { useGetAccountInfo } from "@elrondnetwork/dapp-core";
 import { useLocation } from "react-router-dom";
 import { encode, tokenTTL } from "helpers/asyncRequests";
-import { getItem, setItem } from "storage/session";
+import { setItem } from "storage/local";
+import { getItem } from "storage/session";
 
 export default function useManageAccessToken() {
   const account = useGetAccountInfo();
