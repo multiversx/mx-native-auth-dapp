@@ -1,75 +1,60 @@
 import React from "react";
-import * as Dapp from "@elrondnetwork/dapp";
-import { Route, Switch } from "react-router-dom";
-import Unlock from "pages/Unlock";
+import { useEffect } from "react";
 
+import { DappUI, DappProvider } from "@elrondnetwork/dapp-core";
+import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+import Layout from "components/Layout";
+
+import { generateTokenPayload } from "helpers/asyncRequests";
+import PageNotFound from "pages/PageNotFound";
+
+import routes from "routes";
 import { setItem, getItem } from "storage/session";
-import Layout from "./components/Layout";
-import PageNotFoud from "./components/PageNotFoud";
-import * as config from "./config";
-import { ContextProvider } from "./context";
-import { generateTokenPayload } from "./helpers/asyncRequests";
-import routes, { routeNames } from "./routes";
+import "@elrondnetwork/dapp-core/build/index.css";
 
-export default function App() {
-  const [token, setToken] = React.useState("");
+const environment = "devnet";
 
+const { TransactionsToastList, SignTransactionsModals, NotificationModal } =
+  DappUI;
+
+const App = () => {
   const getTokenToSign = async () => {
     const tokenToSign = await generateTokenPayload();
-    setToken(tokenToSign);
 
     if (!getItem("loginToken")) {
       setItem("loginToken", tokenToSign);
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     getTokenToSign();
   }, []);
 
   return (
-    <ContextProvider>
-      <Dapp.Context config={config}>
+    <Router>
+      <DappProvider
+        environment={environment}
+        customNetworkConfig={{ name: "customConfig", apiTimeout: 6000 }}
+        completedTransactionsDelay={200}
+      >
         <Layout>
-          <Switch>
-            <Route
-              path={routeNames.unlock}
-              component={() => <Unlock token={token} />}
-              exact={true}
-            />
-            <Route
-              path={routeNames.ledger}
-              component={() => (
-                <Dapp.Pages.Ledger callbackRoute={routeNames.dashboard} />
-              )}
-              exact={true}
-            />
-            <Route
-              path={routeNames.walletconnect}
-              component={() => (
-                <Dapp.Pages.WalletConnect
-                  callbackRoute={routeNames.dashboard}
-                  logoutRoute={routeNames.home}
-                  title="Maiar Login"
-                  lead="Scan the QR code using Maiar"
-                  token={token}
-                />
-              )}
-              exact={true}
-            />
-
-            {routes.map((route, i) => (
+          <TransactionsToastList />
+          <NotificationModal />
+          <SignTransactionsModals className="custom-class-for-modals" />
+          <Routes>
+            {routes.map((route: any, index: number) => (
               <Route
                 path={route.path}
-                key={route.path + i}
-                component={route.component}
-                exact={true}
+                key={"route-key-" + index}
+                element={<route.component />}
               />
             ))}
-            <Route component={PageNotFoud} />
-          </Switch>
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
         </Layout>
-      </Dapp.Context>
-    </ContextProvider>
+      </DappProvider>
+    </Router>
   );
-}
+};
+
+export default App;

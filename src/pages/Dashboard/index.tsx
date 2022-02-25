@@ -1,15 +1,17 @@
 import * as React from "react";
-import * as Dapp from "@elrondnetwork/dapp";
+import { useState, useEffect } from "react";
+
+import { refreshAccount } from "@elrondnetwork/dapp-core";
 import axios from "axios";
-import PageState from "components/PageState";
+import { useLocation } from "react-router-dom";
+
 import Actions from "./Actions";
 import TopInfo from "./TopInfo";
 
 const Dashboard = () => {
-  const ref = React.useRef(null);
-  const [userData, setUserData] = React.useState<any | null>(null);
-  const [fetchingData, setFetchingData] = React.useState(true);
-  const refreshAccount = Dapp.useRefreshAccount();
+  const [userData, setUserData] = useState<any>(null);
+  const [fetchingData, setFetchingData] = useState(true);
+  const { search } = useLocation();
 
   const fetchData = async () => {
     refreshAccount();
@@ -24,18 +26,12 @@ const Dashboard = () => {
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(() => {
-    setTimeout(() => {
-      fetchData();
-    }, 1000);
-  }, []);
+  useEffect(() => {
+    setTimeout(fetchData, 1000);
+  }, [search]);
 
-  if (fetchingData) {
-    return <PageState svgComponent={<></>} spin />;
-  }
   return (
-    <div className="container py-4" ref={ref}>
+    <div className="container py-4">
       <div className="row">
         <div className="col-12 col-md-10 mx-auto">
           <div className="card shadow-sm rounded border-0">
@@ -45,7 +41,11 @@ const Dashboard = () => {
                   <TopInfo />
                   <Actions />
 
-                  {userData != null ? (
+                  {fetchingData ? (
+                    <div className="text-white d-flex flex-column mt-3">
+                      <span>Retrieving Data...</span>
+                    </div>
+                  ) : userData != null ? (
                     <div className="text-white d-flex flex-column mt-3">
                       <span className={"mt-2"}>{"API response: "}</span>
                       <span

@@ -1,30 +1,27 @@
 import * as React from "react";
-import * as Dapp from "@elrondnetwork/dapp";
+import { DappUI, useGetNetworkConfig } from "@elrondnetwork/dapp-core";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation, Link } from "react-router-dom";
-import PageState from "components/PageState";
 import { routeNames } from "routes";
 
 const Transaction = () => {
   const { search } = useLocation();
-  const { explorerAddress } = Dapp.useContext();
+  const { network } = useGetNetworkConfig();
 
   const query = new URLSearchParams(search);
   const { status, txHash } = Object.fromEntries(query);
 
   return status === "success" ? (
-    <PageState
-      svgComponent={
-        <FontAwesomeIcon icon={faCheck} className="text-success fa-3x" />
-      }
+    <DappUI.PageState
+      icon={faCheck}
+      iconClass="fa-3x text-success"
       className="dapp-icon icon-medium"
       title="Transaction submitted successfully"
       description={
         <>
           <p>
             <a
-              href={`${explorerAddress}transactions/${txHash}`}
+              href={`${network.explorerAddress}/transactions/${txHash}`}
               {...{
                 target: "_blank",
               }}
@@ -41,10 +38,9 @@ const Transaction = () => {
       }
     />
   ) : (
-    <PageState
-      svgComponent={
-        <FontAwesomeIcon icon={faTimes} className="text-danger fa-3x" />
-      }
+    <DappUI.PageState
+      icon={faTimes}
+      iconClass="fa-3x text-danger"
       className="dapp-icon icon-medium"
       title="Error sending transaction"
       description={

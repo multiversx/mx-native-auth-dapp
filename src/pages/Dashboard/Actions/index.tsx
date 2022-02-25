@@ -1,53 +1,47 @@
-import * as React from "react";
-import * as Dapp from "@elrondnetwork/dapp";
+import React from "react";
+
 import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { contractAddress, gasPrice, version } from "config";
-import { RawTransactionType } from "helpers/types";
-import newTransaction from "pages/Transaction/newTransaction";
+
 import { routeNames } from "routes";
+import useTransaction from "./hooks/useTransaction";
 
 const Actions = () => {
-  const sendTransaction = Dapp.useSendTransaction();
-  const { chainId } = Dapp.useContext();
+  const { sendTransaction } = useTransaction();
 
-  const send = (transaction: RawTransactionType) => (e: React.MouseEvent) => {
-    e.preventDefault();
-    sendTransaction({
-      transaction: newTransaction(transaction),
-      callbackRoute: routeNames.transaction,
-    });
+  const onClaimRewards = async (): Promise<void> => {
+    try {
+      await sendTransaction({
+        value: "0",
+        type: "claimRewards",
+        args: "",
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const stakeTransaction: RawTransactionType = {
-    receiver: contractAddress,
-    data: "stake",
-    value: "10",
-    gasLimit: 250000000,
-    chainID: chainId.valueOf(),
-    gasPrice,
-    version,
-  };
-
-  const claimRewardsTransaction: RawTransactionType = {
-    receiver: contractAddress,
-    data: "claimRewards",
-    value: "0",
-    gasLimit: 250000000,
-    chainID: chainId.valueOf(),
-    gasPrice,
-    version,
+  const onDelegate = async (): Promise<void> => {
+    try {
+      await sendTransaction({
+        value: "10",
+        type: "stake",
+        args: "",
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div className="d-flex mt-4 justify-content-center">
       <div className="action-btn">
-        <button className="btn" onClick={send(stakeTransaction)}>
+        <button className="btn" onClick={onDelegate}>
           <FontAwesomeIcon icon={faArrowUp} className="text-primary" />
         </button>
         <a
           href={routeNames.home}
-          onClick={send(stakeTransaction)}
+          onClick={onDelegate}
           className="text-white text-decoration-none"
         >
           Stake
@@ -55,12 +49,12 @@ const Actions = () => {
       </div>
 
       <div className="action-btn">
-        <button className="btn" onClick={send(claimRewardsTransaction)}>
+        <button className="btn" onClick={onClaimRewards}>
           <FontAwesomeIcon icon={faArrowDown} className="text-primary" />
         </button>
         <a
           href="/"
-          onClick={send(claimRewardsTransaction)}
+          onClick={onClaimRewards}
           className="text-white text-decoration-none"
         >
           Claim rewards

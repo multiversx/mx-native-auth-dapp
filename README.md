@@ -1,6 +1,6 @@
 # @elrondnetwork/dapp-template
 The __Elrond dApp Template__, built using [React.js](https://reactjs.org/) and [Typescript](https://www.typescriptlang.org/).
-It's a basic implementation of [@elrondnetwork/dapp](https://www.npmjs.com/package/@elrondnetwork/dapp), providing the basics for Elrond authentication and TX signing.
+It's a basic implementation of [@elrondnetwork/dapp-core](https://www.npmjs.com/package/@elrondnetwork/dapp-core), providing the basics for Elrond authentication and TX signing.
 
 See [Dapp template](https://dapp-template.elrond.com/) for live demo.
 
@@ -11,7 +11,7 @@ See [Dapp template](https://dapp-template.elrond.com/) for live demo.
 
 ## Getting Started
 
-The dapp is a client side only poject and is built using the [Create React App](https://create-react-app.dev)  scripts.
+The dapp is a client side only project and is built using the [Create React App](https://create-react-app.dev)  scripts.
 
 ### Instalation and running
 
@@ -23,9 +23,13 @@ From a terminal, navigate to the project folder and run:
 npm install
 ```
 
-### Step 2. Update Configs
+### Step 2. Update environment
 
-Create a new file `src/config.tsx` and copy the content of `src/config.testnet.tsx`. If you want to develop against `devnet`, change all instances of `testnet` to `devnet`.
+Go to `App.tsx` and edit the `environment` variable according to the environment you want the app to run on.
+Valid values are `testnet`, `devnet` or `mainnet`
+
+If you need to edit the network configuration, you can pass in a `customNetworkConfig` object.
+More info about this can be found in [dapp-core documentation](https://github.com/ElrondNetwork/dapp-core)
 
 ### Step 3. Running in development mode
 
