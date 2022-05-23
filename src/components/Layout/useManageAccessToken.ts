@@ -12,9 +12,7 @@ export default function useManageAccessToken() {
   const { search } = useLocation();
 
   useEffect(() => {
-    const nativeClient = new NativeAuthClient({
-      host: "test.native-auth",
-    });
+    const nativeClient = new NativeAuthClient();
     const loginToken = getItem("loginToken");
     const urlSearchParams = new URLSearchParams(search);
 

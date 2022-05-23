@@ -21,9 +21,7 @@ const { TransactionsToastList, SignTransactionsModals, NotificationModal } =
 const App = () => {
   const getTokenToSign = async () => {
     if (!getItem("loginToken")) {
-      const client = new NativeAuthClient({
-        host: "test.native-auth",
-      });
+      const client = new NativeAuthClient();
       const init = await client.initialize({
         hello: "world",
       });
