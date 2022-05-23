@@ -5,7 +5,6 @@ import { refreshAccount } from "@elrondnetwork/dapp-core";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 
-import Actions from "./Actions";
 import TopInfo from "./TopInfo";
 
 const Dashboard = () => {
@@ -39,7 +38,6 @@ const Dashboard = () => {
               <div className="card rounded border-0 bg-primary">
                 <div className="card-body text-center p-4">
                   <TopInfo />
-                  <Actions />
 
                   {fetchingData ? (
                     <div className="text-white d-flex flex-column mt-3">
@@ -51,14 +49,14 @@ const Dashboard = () => {
                       <span
                         className={"mt-2"}
                       >{`Address: ${userData.address}`}</span>
-                      <span
-                        className={"mt-2"}
-                      >{`isTokenValid: ${userData.isTokenValid}`}</span>
+                      <span className={"mt-2"}>{`extraInfo: ${JSON.stringify(
+                        userData.extraInfo,
+                      )}`}</span>
                       <span className={"mt-2"}>{`Token issued at: ${new Date(
-                        userData.issued,
+                        userData.issued * 1000,
                       )}`}</span>
                       <span className={"mt-2"}>{`Token expires at: ${new Date(
-                        userData.expires,
+                        userData.expires * 1000,
                       )}`}</span>
                     </div>
                   ) : (

@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 
 import { DappUI, DappProvider } from "@elrondnetwork/dapp-core";
+import { NativeAuthClient } from "@elrondnetwork/native-auth";
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import Layout from "components/Layout";
 
@@ -20,8 +21,13 @@ const { TransactionsToastList, SignTransactionsModals, NotificationModal } =
 const App = () => {
   const getTokenToSign = async () => {
     if (!getItem("loginToken")) {
-      const tokenToSign = await generateTokenPayload();
-      setItem("loginToken", tokenToSign);
+      const client = new NativeAuthClient({
+        host: "test.native-auth",
+      });
+      const init = await client.initialize({
+        hello: "world",
+      });
+      setItem("loginToken", init);
     }
   };
 

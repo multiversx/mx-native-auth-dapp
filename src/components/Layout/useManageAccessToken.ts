@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 
 import { useGetAccountInfo } from "@elrondnetwork/dapp-core";
+import { NativeAuthClient } from "@elrondnetwork/native-auth";
 import { useLocation } from "react-router-dom";
-import { encode, tokenTTL } from "helpers/asyncRequests";
+import { tokenTTL } from "helpers/asyncRequests";
 import { setItem } from "storage/local";
 import { getItem } from "storage/session";
 
@@ -11,6 +12,9 @@ export default function useManageAccessToken() {
   const { search } = useLocation();
 
   useEffect(() => {
+    const nativeClient = new NativeAuthClient({
+      host: "test.native-auth",
+    });
     const loginToken = getItem("loginToken");
     const urlSearchParams = new URLSearchParams(search);
 
@@ -19,9 +23,11 @@ export default function useManageAccessToken() {
     const hasLoginParams = Boolean(signature && loginToken && address);
 
     if (Boolean(account.address) && hasLoginParams) {
-      const encodedAddress = encode(address);
-      const encodedToken = encode(loginToken);
-      const accessToken = `${encodedAddress}.${encodedToken}.${signature}`;
+      const accessToken = nativeClient.getAccessToken(
+        address,
+        loginToken,
+        signature,
+      );
 
       setItem("tokenData", { accessToken }, tokenTTL);
     }

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { apiAddress } from "config";
+import { network } from "config";
 import { getItem } from "storage/local";
 
 export const tokenTTL = 60 * 60 * 24;
@@ -24,7 +24,7 @@ axios.interceptors.request.use(function (config) {
 
 export const getCurrentBlockHash = async () => {
   try {
-    const response = await axios.get(`${apiAddress}/blocks?size=1`);
+    const response = await axios.get(`${network.apiAddress}/blocks?size=1`);
     return { hash: response.data[0].hash, success: true };
   } catch (error) {
     return {
