@@ -21,11 +21,7 @@ export default function useManageAccessToken() {
     const hasLoginParams = Boolean(signature && loginToken && address);
 
     if (Boolean(account.address) && hasLoginParams) {
-      const accessToken = nativeClient.getAccessToken(
-        address,
-        loginToken,
-        signature,
-      );
+      const accessToken = nativeClient.getToken(address, loginToken, signature);
 
       setItem("tokenData", { accessToken }, tokenTTL);
     }
