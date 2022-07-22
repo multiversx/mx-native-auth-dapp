@@ -1,11 +1,12 @@
 import * as React from "react";
-import * as Dapp from "@elrondnetwork/dapp";
+import { useGetIsLoggedIn } from "@elrondnetwork/dapp-core/hooks/account/useGetIsLoggedIn";
 import { useLocation } from "react-router-dom";
 import { encode, tokenTTL } from "helpers/asyncRequests";
 import { setItem } from "storage/session";
 
 export default function useManageAccessToken() {
-  const { loggedIn, tokenLogin } = Dapp.useContext();
+  const loggedIn = useGetIsLoggedIn();
+  const { tokenLogin } = Dapp.useContext();
 
   const { search } = useLocation();
 

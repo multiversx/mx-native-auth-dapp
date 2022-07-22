@@ -1,20 +1,20 @@
 import * as React from "react";
-import * as Dapp from "@elrondnetwork/dapp";
+import { sendTransactions } from "@elrondnetwork/dapp-core/services";
+import { getChainID } from "@elrondnetwork/dapp-core/utils";
 import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { contractAddress, gasPrice, version } from "config";
 import { RawTransactionType } from "helpers/types";
-import newTransaction from "pages/Transaction/newTransaction";
 import { routeNames } from "routes";
+// import useNewTransaction from "../../Transaction/useNewTransaction";
 
 const Actions = () => {
-  const sendTransaction = Dapp.useSendTransaction();
-  const { chainId } = Dapp.useContext();
+  const chainId = getChainID();
 
   const send = (transaction: RawTransactionType) => (e: React.MouseEvent) => {
     e.preventDefault();
-    sendTransaction({
-      transaction: newTransaction(transaction),
+    sendTransactions({
+      transactions: transaction,
       callbackRoute: routeNames.transaction,
     });
   };

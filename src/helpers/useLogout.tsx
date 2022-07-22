@@ -1,14 +1,13 @@
-import * as Dapp from "@elrondnetwork/dapp";
 import { setItem } from "storage/session";
+import { logout } from "@elrondnetwork/dapp-core/utils";
 
 export default function useLogout() {
-  const logout = Dapp.useLogout();
 
   return (e?: React.MouseEvent) => {
     if (e) {
       e.preventDefault();
     }
     setItem("tokenData", null);
-    logout({ callbackUrl: "/" });
+    logout("/");
   };
 }

@@ -1,12 +1,12 @@
 import React from "react";
-import * as Dapp from "@elrondnetwork/dapp";
+import { useGetIsLoggedIn } from "@elrondnetwork/dapp-core/hooks";
 import { Navbar as BsNavbar, NavItem, Nav } from "react-bootstrap";
 import { ReactComponent as ElrondLogo } from "assets/img/elrond.svg";
 import { dAppName } from "config";
 import useLogout from "helpers/useLogout";
 
 const Navbar = () => {
-  const { loggedIn } = Dapp.useContext();
+  const loggedIn = useGetIsLoggedIn();
   const logout = useLogout();
   return (
     <BsNavbar className="bg-white border-bottom px-4 py-3">

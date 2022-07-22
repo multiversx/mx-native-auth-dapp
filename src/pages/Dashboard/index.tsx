@@ -1,18 +1,17 @@
 import * as React from "react";
-import * as Dapp from "@elrondnetwork/dapp";
 import axios from "axios";
 import PageState from "components/PageState";
 import Actions from "./Actions";
 import TopInfo from "./TopInfo";
+import { refreshAccount } from "@elrondnetwork/dapp-core/utils";
 
 const Dashboard = () => {
   const ref = React.useRef(null);
   const [userData, setUserData] = React.useState<any | null>(null);
   const [fetchingData, setFetchingData] = React.useState(true);
-  const refreshAccount = Dapp.useRefreshAccount();
 
   const fetchData = async () => {
-    refreshAccount();
+    await refreshAccount();
     try {
       const response = await axios.get("http://localhost:3000/auth");
       setUserData(response?.data);
