@@ -1,4 +1,4 @@
-import {CustomNetworkType} from "@elrondnetwork/dapp-core/types";
+import { CustomNetworkType } from "@elrondnetwork/dapp-core/types";
 
 export const dAppName = "Dapp";
 export const decimals = 2;

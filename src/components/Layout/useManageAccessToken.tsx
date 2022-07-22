@@ -1,25 +1,27 @@
 import * as React from "react";
-import { useGetIsLoggedIn } from "@elrondnetwork/dapp-core/hooks/account/useGetIsLoggedIn";
-import { useLocation } from "react-router-dom";
+import { useGetAccountInfo } from "@elrondnetwork/dapp-core/hooks/account/useGetAccountInfo";
+import { useGetLoginInfo } from "@elrondnetwork/dapp-core/hooks/account/useGetLoginInfo";
 import { encode, tokenTTL } from "helpers/asyncRequests";
 import { setItem } from "storage/session";
 
 export default function useManageAccessToken() {
-  const loggedIn = useGetIsLoggedIn();
-  const { tokenLogin } = Dapp.useContext();
-
-  const { search } = useLocation();
+  const { tokenLogin, isLoggedIn } = useGetLoginInfo();
+  const {
+    account: { address },
+  } = useGetAccountInfo();
 
   React.useEffect(() => {
-    const urlSearchParams = new URLSearchParams(search);
-    const params = Object.fromEntries(urlSearchParams as any);
-    const { signature, loginToken, address } = params;
+    if (!tokenLogin) {
+      return;
+    }
+
+    const { signature, loginToken } = tokenLogin;
     const hasLoginParams = Boolean(signature && loginToken && address);
-    if (loggedIn && hasLoginParams) {
+    if (isLoggedIn && hasLoginParams) {
       const encodedAddress = encode(address);
       const encodedToken = encode(loginToken);
       const accessToken = `${encodedAddress}.${encodedToken}.${signature}`;
       setItem("tokenData", { accessToken }, tokenTTL);
     }
-  }, [loggedIn, tokenLogin]);
+  }, [isLoggedIn, tokenLogin]);
 }

@@ -1,15 +1,15 @@
 import * as React from "react";
+import { useGetNetworkConfig } from "@elrondnetwork/dapp-core/hooks";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation, Link } from "react-router-dom";
 import PageState from "components/PageState";
 import { routeNames } from "routes";
-import { useGetNetworkConfig } from "@elrondnetwork/dapp-core/hooks";
 
 const Transaction = () => {
   const { search } = useLocation();
   const {
-    network: { explorerAddress }
+    network: { explorerAddress },
   } = useGetNetworkConfig();
 
   const query = new URLSearchParams(search);

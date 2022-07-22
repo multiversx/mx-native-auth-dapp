@@ -17,21 +17,27 @@ const Unlock = ({ token }: { token: string }) => {
             <ExtensionLoginButton
               callbackRoute={routeNames.dashboard}
               loginButtonText={"Extension"}
+              token={token}
               disabled={token === ""}
             />
             <WebWalletLoginButton
               callbackRoute={routeNames.dashboard}
               loginButtonText={"Web wallet"}
+              token={token}
               disabled={token === ""}
             />
             <LedgerLoginButton
               loginButtonText={"Ledger"}
               callbackRoute={routeNames.dashboard}
               className={"test-class_name"}
+              token={token}
+              disabled={token === ""}
             />
             <WalletConnectLoginButton
               callbackRoute={routeNames.dashboard}
               loginButtonText={"Maiar"}
+              token={token}
+              disabled={token === ""}
             />
           </div>
         </div>

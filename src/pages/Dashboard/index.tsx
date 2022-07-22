@@ -1,9 +1,9 @@
 import * as React from "react";
+import { refreshAccount } from "@elrondnetwork/dapp-core/utils";
 import axios from "axios";
 import PageState from "components/PageState";
 import Actions from "./Actions";
 import TopInfo from "./TopInfo";
-import { refreshAccount } from "@elrondnetwork/dapp-core/utils";
 
 const Dashboard = () => {
   const ref = React.useRef(null);

@@ -1,5 +1,5 @@
-import { RouteType } from "@elrondnetwork/dapp-core/types";
 import React from "react";
+import { RouteType } from "@elrondnetwork/dapp-core/types";
 import withPageTitle from "./components/PageTitle";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
@@ -12,8 +12,6 @@ export const routeNames = {
   dashboard: "/dashboard",
   transaction: "/transaction",
   unlock: "/unlock",
-  ledger: "/ledger",
-  walletconnect: "/walletconnect",
 };
 
 const routes: DAppRouteType[] = [
@@ -26,12 +24,14 @@ const routes: DAppRouteType[] = [
     path: "/dashboard",
     title: "Dashboard",
     component: Dashboard,
+    authenticatedRoute: true,
   },
 
   {
     path: "/transaction",
     title: "Transaction",
     component: Transaction,
+    authenticatedRoute: true,
   },
 ];
 
