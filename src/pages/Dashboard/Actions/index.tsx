@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { contractAddress, gasPrice, version } from "config";
 import { RawTransactionType } from "helpers/types";
 import { routeNames } from "routes";
-// import useNewTransaction from "../../Transaction/useNewTransaction";
 
 const Actions = () => {
   const chainId = getChainID();
