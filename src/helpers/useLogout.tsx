@@ -1,4 +1,4 @@
-import { logout } from "@elrondnetwork/dapp-core/utils";
+import { logout } from "@elrondnetwork/dapp-core/utils/logout";
 import { setItem } from "storage/session";
 
 export default function useLogout() {
@@ -7,6 +7,6 @@ export default function useLogout() {
       e.preventDefault();
     }
     setItem("tokenData", null);
-    logout("/");
+    logout(`${window.location.origin}/unlock`);
   };
 }

@@ -1,5 +1,3 @@
-import { CustomNetworkType } from "@elrondnetwork/dapp-core/types";
-
 export const dAppName = "Dapp";
 export const decimals = 2;
 export const denomination = 18;
@@ -14,13 +12,3 @@ export const walletConnectDeepLink =
 
 export const contractAddress =
   "erd1qqqqqqqqqqqqqpgqp699jngundfqw07d8jzkepucvpzush6k3wvqyc44rx";
-
-export const network: CustomNetworkType = {
-  id: "devnet",
-  name: "Devnet",
-  egldLabel: "xEGLD",
-  walletAddress: "https://devnet-wallet.elrond.com",
-  apiAddress: "https://devnet-api.elrond.com",
-  // gatewayAddress: "https://devnet-gateway.elrond.com",
-  explorerAddress: "http://devnet-explorer.elrond.com/",
-};

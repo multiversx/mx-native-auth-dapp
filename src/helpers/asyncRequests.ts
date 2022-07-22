@@ -1,6 +1,5 @@
 import axios from "axios";
 
-import { network } from "config";
 import { getItem } from "storage/session";
 
 export const tokenTTL = 60 * 60 * 2;
@@ -19,27 +18,6 @@ axios.interceptors.request.use(function (config) {
   }
   return config;
 });
-
-export const getCurrentBlockHash = async () => {
-  try {
-    const response = await axios.get(`${network.apiAddress}/blocks?size=1`);
-    return { hash: response.data[0].hash, success: true };
-  } catch (error) {
-    return {
-      success: false,
-    };
-  }
-};
-
-export const generateTokenPayload = async (): Promise<string> => {
-  const currentBlockHashResponse = await getCurrentBlockHash();
-  if (!currentBlockHashResponse?.success) {
-    alert("there was an error while the token, please try again");
-    return "";
-  }
-  const { hash } = currentBlockHashResponse;
-  return `${window.location.hostname}.${hash}.${tokenTTL}`;
-};
 
 function escape(str: string) {
   return str.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
