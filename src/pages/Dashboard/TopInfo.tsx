@@ -1,10 +1,10 @@
 import * as React from "react";
-import { useGetAccountInfo } from "@elrondnetwork/dapp-core/hooks";
+import { useGetAccount } from "@elrondnetwork/dapp-core/hooks";
 import { Denominate } from "@elrondnetwork/dapp-core/UI";
 import { contractAddress } from "config";
 
 const TopInfo = () => {
-  const { address, account } = useGetAccountInfo();
+  const { address, balance } = useGetAccount();
 
   return (
     <div className="text-white" data-testid="topInfo">
@@ -18,7 +18,7 @@ const TopInfo = () => {
       </div>
       <div>
         <h3 className="py-2">
-          <Denominate value={account.balance} data-testid="balance" />
+          <Denominate value={balance} data-testid="balance" />
         </h3>
       </div>
     </div>
