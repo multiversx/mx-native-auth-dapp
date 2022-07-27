@@ -1,10 +1,13 @@
 import React from "react";
-import * as Dapp from "@elrondnetwork/dapp";
+import {
+  useGetAccountInfo,
+  useGetNetworkConfig,
+} from "@elrondnetwork/dapp-core/hooks";
+import { Denominate, Trim } from "@elrondnetwork/dapp-core/UI";
 import moment from "moment";
-import Denominate from "components/Denominate";
-import { TransactionType } from "context/state";
 import StatusIcon from "./StatusIcon";
 import txStatus from "./txStatus";
+import { TransactionType } from "./types";
 
 function sortByDate(a: TransactionType, b: TransactionType) {
   if (a.timestamp < b.timestamp) {
@@ -24,9 +27,10 @@ const TransactionList = ({
 }: {
   transactions: TransactionType[];
 }) => {
-  const { address, explorerAddress } = Dapp.useContext();
+  const { network } = useGetNetworkConfig();
+  const account = useGetAccountInfo();
   const incoming = (sender: string) =>
-    sender === address && sender !== fakeSender;
+    sender === account.address && sender !== fakeSender;
 
   // eslint-disable-next-line
   const doubleOwnTransactions = transactions
@@ -42,7 +46,7 @@ const TransactionList = ({
 
   return (
     <div className="p-3 mt-3">
-      <h4 className="mb-3 font-weight-normal">Transactions</h4>
+      <h4 className="mb-3 font-weight-normal">Smart Contract Transactions</h4>
       <div className="table-responsive">
         <table className="transactions table pb-3">
           <thead>
@@ -56,6 +60,7 @@ const TransactionList = ({
           <tbody data-testid="transactionsList">
             {sortedTransactions.map((tx: TransactionType, i) => {
               const incomingTransaction = incoming(tx.sender);
+
               return (
                 <tr key={tx.txHash + i}>
                   <td>
@@ -69,28 +74,27 @@ const TransactionList = ({
                       />
                     </div>
                   </td>
-                  <td>
+                  <td className="transaction-hash">
                     <a
-                      href={`${explorerAddress}transactions/${tx.txHash}`}
+                      href={`${network.explorerAddress}/transactions/${tx.txHash}`}
                       {...{
                         target: "_blank",
                       }}
-                      className="tx-link"
                       title="View in Explorer"
                     >
-                      {tx.txHash}
+                      <Trim data-testid="txHash" text={tx.txHash} />
                     </a>
                   </td>
                   <td>
-                    {moment.unix(tx.timestamp).format("MMMM Do YYYY, h:mm A")}
+                    {moment.unix(tx.timestamp).format("MMM Do YYYY, h:mm A")}
                   </td>
-                  <td>
+                  <td className="text-right">
                     {tx.value === "0" ? (
                       ""
                     ) : (
-                      <>{tx.sender === address ? "-" : "+"}</>
+                      <>{tx.sender === account.address ? "-" : "+"}</>
                     )}
-                    <Denominate value={tx.value} />
+                    <Denominate value={tx.value} decimals={2} />
                   </td>
                 </tr>
               );
@@ -100,7 +104,7 @@ const TransactionList = ({
       </div>
       <div className="d-flex justify-content-center">
         <a
-          href={`${explorerAddress}address/${address}`}
+          href={`${network.explorerAddress}/address/${account.address}`}
           {...{
             target: "_blank",
           }}

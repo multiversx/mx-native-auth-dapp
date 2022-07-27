@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as Dapp from "@elrondnetwork/dapp";
+import { useGetNetworkConfig } from "@elrondnetwork/dapp-core/hooks";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation, Link } from "react-router-dom";
@@ -8,7 +8,9 @@ import { routeNames } from "routes";
 
 const Transaction = () => {
   const { search } = useLocation();
-  const { explorerAddress } = Dapp.useContext();
+  const {
+    network: { explorerAddress },
+  } = useGetNetworkConfig();
 
   const query = new URLSearchParams(search);
   const { status, txHash } = Object.fromEntries(query);

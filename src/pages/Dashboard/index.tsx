@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as Dapp from "@elrondnetwork/dapp";
+import { refreshAccount } from "@elrondnetwork/dapp-core/utils";
 import axios from "axios";
 import PageState from "components/PageState";
 import Actions from "./Actions";
@@ -9,10 +9,9 @@ const Dashboard = () => {
   const ref = React.useRef(null);
   const [userData, setUserData] = React.useState<any | null>(null);
   const [fetchingData, setFetchingData] = React.useState(true);
-  const refreshAccount = Dapp.useRefreshAccount();
 
   const fetchData = async () => {
-    refreshAccount();
+    await refreshAccount();
     try {
       const response = await axios.get("http://localhost:3000/auth");
       setUserData(response?.data);
@@ -50,14 +49,11 @@ const Dashboard = () => {
                       <span
                         className={"mt-2"}
                       >{`Address: ${userData.address}`}</span>
-                      <span
-                        className={"mt-2"}
-                      >{`isTokenValid: ${userData.isTokenValid}`}</span>
                       <span className={"mt-2"}>{`Token issued at: ${new Date(
-                        userData.issued,
+                        userData.issued * 1000,
                       )}`}</span>
                       <span className={"mt-2"}>{`Token expires at: ${new Date(
-                        userData.expires,
+                        userData.expires * 1000,
                       )}`}</span>
                     </div>
                   ) : (

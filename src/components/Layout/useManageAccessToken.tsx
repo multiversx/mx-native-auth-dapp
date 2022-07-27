@@ -1,24 +1,27 @@
 import * as React from "react";
-import * as Dapp from "@elrondnetwork/dapp";
-import { useLocation } from "react-router-dom";
-import { encode, tokenTTL } from "helpers/asyncRequests";
+import { useGetAccountInfo } from "@elrondnetwork/dapp-core/hooks/account/useGetAccountInfo";
+import { useGetLoginInfo } from "@elrondnetwork/dapp-core/hooks/account/useGetLoginInfo";
+import { NativeAuthClient } from "@elrondnetwork/native-auth-client";
+import { tokenTTL } from "helpers/asyncRequests";
 import { setItem } from "storage/session";
 
 export default function useManageAccessToken() {
-  const { loggedIn, tokenLogin } = Dapp.useContext();
-
-  const { search } = useLocation();
+  const { tokenLogin, isLoggedIn } = useGetLoginInfo();
+  const {
+    account: { address },
+  } = useGetAccountInfo();
 
   React.useEffect(() => {
-    const urlSearchParams = new URLSearchParams(search);
-    const params = Object.fromEntries(urlSearchParams as any);
-    const { signature, loginToken, address } = params;
+    if (!tokenLogin) {
+      return;
+    }
+
+    const { signature, loginToken } = tokenLogin;
     const hasLoginParams = Boolean(signature && loginToken && address);
-    if (loggedIn && hasLoginParams) {
-      const encodedAddress = encode(address);
-      const encodedToken = encode(loginToken);
-      const accessToken = `${encodedAddress}.${encodedToken}.${signature}`;
+    if (isLoggedIn && hasLoginParams) {
+      const client = new NativeAuthClient();
+      const accessToken = client.getToken(address, loginToken, signature ?? "");
       setItem("tokenData", { accessToken }, tokenTTL);
     }
-  }, [loggedIn, tokenLogin]);
+  }, [isLoggedIn, tokenLogin]);
 }
