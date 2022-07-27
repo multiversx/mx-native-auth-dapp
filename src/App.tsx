@@ -5,7 +5,7 @@ import {
   NotificationModal,
 } from "@elrondnetwork/dapp-core/UI";
 import { DappProvider } from "@elrondnetwork/dapp-core/wrappers";
-import { NativeAuthClient } from "@elrondnetwork/native-auth";
+import { NativeAuthClient } from "@elrondnetwork/native-auth-client";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Unlock from "pages/Unlock";
 import Layout from "./components/Layout";

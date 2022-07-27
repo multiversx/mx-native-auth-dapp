@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useGetAccountInfo } from "@elrondnetwork/dapp-core/hooks/account/useGetAccountInfo";
 import { useGetLoginInfo } from "@elrondnetwork/dapp-core/hooks/account/useGetLoginInfo";
-import { NativeAuthClient } from "@elrondnetwork/native-auth";
+import { NativeAuthClient } from "@elrondnetwork/native-auth-client";
 import { tokenTTL } from "helpers/asyncRequests";
 import { setItem } from "storage/session";
 

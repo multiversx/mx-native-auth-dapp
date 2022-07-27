@@ -9,7 +9,7 @@
     "@elrondnetwork/dapp-core": "2.0.0-beta.8",
     "@elrondnetwork/erdjs": "10.2.7",
     "@elrondnetwork/erdjs-network-providers": "0.1.6",
-    "@elrondnetwork/native-auth": "0.1.22",
+    "@elrondnetwork/native-auth-client": "0.1.0",
     "@fortawesome/fontawesome-svg-core": "6.1.0",
     "@fortawesome/free-solid-svg-icons": "6.1.0",
     "@fortawesome/react-fontawesome": "0.1.18",
