@@ -49,14 +49,11 @@ const Dashboard = () => {
                       <span
                         className={"mt-2"}
                       >{`Address: ${userData.address}`}</span>
-                      <span
-                        className={"mt-2"}
-                      >{`isTokenValid: ${userData.isTokenValid}`}</span>
                       <span className={"mt-2"}>{`Token issued at: ${new Date(
-                        userData.issued,
+                        userData.issued * 1000,
                       )}`}</span>
                       <span className={"mt-2"}>{`Token expires at: ${new Date(
-                        userData.expires,
+                        userData.expires * 1000,
                       )}`}</span>
                     </div>
                   ) : (
